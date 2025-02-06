@@ -1,0 +1,131 @@
+{
+  "title": "Công Cụ Tạo Logo AI",
+  "description": "Điền vào mẫu dưới đây để tạo logo độc đáo cho doanh nghiệp của bạn",
+  "form": {
+    "companyName": {
+      "label": "Tên Công Ty",
+      "placeholder": "Nhập tên công ty của bạn",
+      "description": "Tên này sẽ được sử dụng làm văn bản chính trong logo"
+    },
+    "industry": {
+      "label": "Ngành Nghề",
+      "placeholder": "Chọn ngành nghề",
+      "description": "Chọn ngành nghề của bạn để có logo phù hợp hơn",
+      "options": {
+        "Technology & Software": "Công nghệ & Phần mềm",
+        "Financial Services": "Dịch vụ tài chính",
+        "Healthcare & Medical": "Y tế & Sức khỏe",
+        "Education & Training": "Giáo dục & Đào tạo",
+        "Retail & E-commerce": "Bán lẻ & Thương mại điện tử",
+        "Manufacturing": "Sản xuất",
+        "Real Estate": "Bất động sản",
+        "Food & Beverage": "Thực phẩm & Đồ uống",
+        "Media & Entertainment": "Truyền thông & Giải trí",
+        "Consulting & Business Services": "Tư vấn & Dịch vụ kinh doanh",
+        "Transportation & Logistics": "Vận tải & Logistics",
+        "Construction & Architecture": "Xây dựng & Kiến trúc",
+        "Marketing & Advertising": "Marketing & Quảng cáo",
+        "Travel & Hospitality": "Du lịch & Khách sạn",
+        "Energy & Utilities": "Năng lượng & Tiện ích",
+        "Fashion & Apparel": "Thời trang & May mặc",
+        "Agriculture & Farming": "Nông nghiệp",
+        "Automotive": "Ô tô",
+        "Telecommunications": "Viễn thông",
+        "Pharmaceuticals": "Dược phẩm",
+        "Insurance": "Bảo hiểm",
+        "Legal Services": "Dịch vụ pháp lý",
+        "Sports & Fitness": "Thể thao & Thể hình",
+        "Art & Design": "Nghệ thuật & Thiết kế"
+      }
+    },
+    "vibe": {
+      "label": "Phong Cách Thương Hiệu",
+      "description": "Chọn phong cách phù hợp nhất với thương hiệu của bạn",
+      "options": {
+        "Professional": {
+          "name": "Chuyên nghiệp",
+          "description": "Đáng tin cậy, ổn định và chuyên nghiệp"
+        },
+        "Innovative": {
+          "name": "Sáng tạo",
+          "description": "Tiên phong, hiện đại và năng động"
+        },
+        "Playful": {
+          "name": "Vui nhộn",
+          "description": "Thú vị, năng động và thân thiện"
+        },
+        "Luxurious": {
+          "name": "Sang trọng",
+          "description": "Cao cấp, thanh lịch và tinh tế"
+        },
+        "Eco-friendly": {
+          "name": "Thân thiện môi trường",
+          "description": "Bền vững, tự nhiên và có ý thức"
+        },
+        "Minimalist": {
+          "name": "Tối giản",
+          "description": "Sạch sẽ, đơn giản và hiện đại"
+        },
+        "Traditional": {
+          "name": "Truyền thống",
+          "description": "Cổ điển, vượt thời gian và chân thực"
+        },
+        "Bold": {
+          "name": "Mạnh mẽ",
+          "description": "Mạnh mẽ, tự tin và ấn tượng"
+        },
+        "Creative": {
+          "name": "Sáng tạo",
+          "description": "Nghệ thuật, giàu trí tưởng tượng và độc đáo"
+        },
+        "Friendly": {
+          "name": "Thân thiện",
+          "description": "Chào đón, ấm áp và hướng đến cộng đồng"
+        },
+        "Tech-savvy": {
+          "name": "Công nghệ",
+          "description": "Kỹ thuật số, kết nối và tiên tiến"
+        },
+        "Vintage": {
+          "name": "Cổ điển",
+          "description": "Hoài cổ, hoài niệm và truyền thống"
+        }
+      }
+    },
+    "colorScheme": {
+      "label": "Bảng Màu",
+      "options": {
+        "Custom": {
+          "name": "Tùy chỉnh",
+          "description": "Chọn màu sắc của riêng bạn (tối đa 3 màu)"
+        },
+        "Professional": {
+          "name": "Chuyên nghiệp",
+          "description": "Phù hợp cho kinh doanh và tài chính"
+        },
+        "Creative": {
+          "name": "Sáng tạo",
+          "description": "Cho ngành công nghiệp sáng tạo và thiết kế"
+        },
+        "Tech": {
+          "name": "Công nghệ",
+          "description": "Hoàn hảo cho công ty công nghệ và startup"
+        },
+        "Natural": {
+          "name": "Tự nhiên",
+          "description": "Cho doanh nghiệp thực phẩm và môi trường"
+        },
+        "Luxury": {
+          "name": "Sang trọng",
+          "description": "Phù hợp cho thời trang và thương hiệu cao cấp"
+        }
+      }
+    },
+    "submit": {
+      "generate": "Tạo Logo",
+      "generating": "Đang tạo...",
+      "wait": "Đợi {{seconds}}s"
+    }
+  },
+  "download": "Tải Logo"
+}

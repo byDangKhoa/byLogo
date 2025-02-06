@@ -1,0 +1,131 @@
+{
+  "title": "AI Logo Generator",
+  "description": "Fill out the form below to create a unique logo for your business",
+  "form": {
+    "companyName": {
+      "label": "Company Name",
+      "placeholder": "Enter your company name",
+      "description": "This name will be used as the main text in the logo"
+    },
+    "industry": {
+      "label": "Industry",
+      "placeholder": "Select an industry",
+      "description": "Choose your industry for a more relevant logo",
+      "options": {
+        "Technology & Software": "Technology & Software",
+        "Financial Services": "Financial Services",
+        "Healthcare & Medical": "Healthcare & Medical",
+        "Education & Training": "Education & Training",
+        "Retail & E-commerce": "Retail & E-commerce",
+        "Manufacturing": "Manufacturing",
+        "Real Estate": "Real Estate",
+        "Food & Beverage": "Food & Beverage",
+        "Media & Entertainment": "Media & Entertainment",
+        "Consulting & Business Services": "Consulting & Business Services",
+        "Transportation & Logistics": "Transportation & Logistics",
+        "Construction & Architecture": "Construction & Architecture",
+        "Marketing & Advertising": "Marketing & Advertising",
+        "Travel & Hospitality": "Travel & Hospitality",
+        "Energy & Utilities": "Energy & Utilities",
+        "Fashion & Apparel": "Fashion & Apparel",
+        "Agriculture & Farming": "Agriculture & Farming",
+        "Automotive": "Automotive",
+        "Telecommunications": "Telecommunications",
+        "Pharmaceuticals": "Pharmaceuticals",
+        "Insurance": "Insurance",
+        "Legal Services": "Legal Services",
+        "Sports & Fitness": "Sports & Fitness",
+        "Art & Design": "Art & Design"
+      }
+    },
+    "vibe": {
+      "label": "Brand Vibe",
+      "description": "Select the mood that best represents your brand",
+      "options": {
+        "Professional": {
+          "name": "Professional",
+          "description": "Trustworthy, reliable, and established"
+        },
+        "Innovative": {
+          "name": "Innovative",
+          "description": "Forward-thinking, cutting-edge, and dynamic"
+        },
+        "Playful": {
+          "name": "Playful",
+          "description": "Fun, energetic, and approachable"
+        },
+        "Luxurious": {
+          "name": "Luxurious",
+          "description": "Premium, elegant, and sophisticated"
+        },
+        "Eco-friendly": {
+          "name": "Eco-friendly",
+          "description": "Sustainable, natural, and conscious"
+        },
+        "Minimalist": {
+          "name": "Minimalist",
+          "description": "Clean, simple, and modern"
+        },
+        "Traditional": {
+          "name": "Traditional",
+          "description": "Classic, timeless, and authentic"
+        },
+        "Bold": {
+          "name": "Bold",
+          "description": "Strong, confident, and impactful"
+        },
+        "Creative": {
+          "name": "Creative",
+          "description": "Artistic, imaginative, and unique"
+        },
+        "Friendly": {
+          "name": "Friendly",
+          "description": "Welcoming, warm, and community-focused"
+        },
+        "Tech-savvy": {
+          "name": "Tech-savvy",
+          "description": "Digital, connected, and advanced"
+        },
+        "Vintage": {
+          "name": "Vintage",
+          "description": "Retro, nostalgic, and classic"
+        }
+      }
+    },
+    "colorScheme": {
+      "label": "Color Scheme",
+      "options": {
+        "Custom": {
+          "name": "Custom",
+          "description": "Choose your own colors (up to 3)"
+        },
+        "Professional": {
+          "name": "Professional",
+          "description": "Suitable for business and finance"
+        },
+        "Creative": {
+          "name": "Creative",
+          "description": "For creative and design industries"
+        },
+        "Tech": {
+          "name": "Tech",
+          "description": "Perfect for tech companies and startups"
+        },
+        "Natural": {
+          "name": "Natural",
+          "description": "For food and environmental businesses"
+        },
+        "Luxury": {
+          "name": "Luxury",
+          "description": "Suitable for fashion and luxury brands"
+        }
+      }
+    },
+    "submit": {
+      "generate": "Generate Logo",
+      "generating": "Generating...",
+      "wait": "Wait {{seconds}}s"
+    }
+  },
+  "download": "Download Logo"
+}

@@ -1,5 +1,6 @@
 'use client'
 
+import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -25,7 +26,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { LanguageProvider, useLanguage } from '@/contexts/LanguageContext'
 import { zodResolver } from '@hookform/resolvers/zod'
+import axios from 'axios'
 import Image from 'next/image'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -164,6 +167,15 @@ const formSchema = z.object({
 type LogoFormValues = z.infer<typeof formSchema>
 
 export default function Home() {
+  return (
+    <LanguageProvider>
+      <HomeContent />
+    </LanguageProvider>
+  )
+}
+
+function HomeContent() {
+  const { t } = useLanguage()
   // Initialize the form
   const form = useForm<LogoFormValues>({
     resolver: zodResolver(formSchema),
@@ -193,6 +205,14 @@ export default function Home() {
     return Date.now() < cooldownEnd
   }
 
+  // Helper function to detect Vietnamese text
+  const containsVietnamese = (text: string): boolean => {
+    // Vietnamese diacritic characters regex
+    const vietnameseRegex =
+      /[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]/i
+    return vietnameseRegex.test(text)
+  }
+
   // Handle form submission
   const handleSubmit = async (values: LogoFormValues) => {
     if (isInCooldown()) {
@@ -206,6 +226,26 @@ export default function Home() {
     setIsLoading(true)
     setLogoUrls([])
     try {
+      let companyName = values.companyName
+
+      // Translate if Vietnamese text is detected
+      if (containsVietnamese(companyName)) {
+        const translateResponse = await axios.post(
+          'https://libretranslate.de/translate',
+          {
+            q: companyName,
+            source: 'vi',
+            target: 'en',
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        )
+        companyName = translateResponse.data.translatedText
+      }
+
       const selectedScheme = COLOR_SCHEMES.find(
         (s) => s.name === values.colorScheme
       )
@@ -217,37 +257,32 @@ export default function Home() {
           }`
         : ''
 
-      const prompt = `Create a logo for a ${values.industry} company named "${
-        values.companyName
-      }" with a ${values.vibe.toLowerCase()} vibe ${colorDesc}. The logo should be simple, clean, and professional.`
+      const prompt = `Create a logo for a ${
+        values.industry
+      } company named "${companyName}" with a ${values.vibe.toLowerCase()} vibe ${colorDesc}. The logo should be simple and clean and professional.`
 
-      const response = await fetch(
+      const response = await axios.post(
         'https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0',
         {
-          method: 'POST',
+          inputs: prompt,
+          options: {
+            wait_for_model: true,
+          },
+        },
+        {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${process.env.NEXT_PUBLIC_HUGGINGFACE_API_KEY}`,
           },
-          body: JSON.stringify({
-            inputs: prompt,
-            options: {
-              wait_for_model: true,
-            },
-          }),
+          responseType: 'blob',
         }
       )
 
-      if (!response.ok) {
-        throw new Error(`API error: ${response.status}`)
-      }
-
-      const blob = await response.blob()
-      const url = URL.createObjectURL(blob)
+      const url = URL.createObjectURL(response.data)
       setLogoUrls([url])
     } catch (error) {
       console.error('Error generating logo:', error)
-      if (error.toString().includes('TooManyRequests')) {
+      if (axios.isAxiosError(error) && error.response?.status === 429) {
         setCooldownEnd(Date.now() + 60000)
       }
     } finally {
@@ -287,12 +322,13 @@ export default function Home() {
 
   return (
     <div className='container mx-auto py-10'>
+      <div className='flex justify-end mb-4'>
+        <LanguageSwitcher />
+      </div>
       <Card>
         <CardHeader>
-          <CardTitle>AI Logo Generator</CardTitle>
-          <CardDescription>
-            Fill out the form below to create a unique logo for your business
-          </CardDescription>
+          <CardTitle>{t('title')}</CardTitle>
+          <CardDescription>{t('description')}</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -304,12 +340,15 @@ export default function Home() {
                 name='companyName'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Company Name</FormLabel>
+                    <FormLabel>{t('form.companyName.label')}</FormLabel>
                     <FormControl>
-                      <Input placeholder='Enter your company name' {...field} />
+                      <Input
+                        placeholder={t('form.companyName.placeholder')}
+                        {...field}
+                      />
                     </FormControl>
                     <FormDescription>
-                      This name will be used as the main text in the logo
+                      {t('form.companyName.description')}
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -321,25 +360,27 @@ export default function Home() {
                 name='industry'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Industry</FormLabel>
+                    <FormLabel>{t('form.industry.label')}</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder='Select an industry' />
+                          <SelectValue
+                            placeholder={t('form.industry.placeholder')}
+                          />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
                         {INDUSTRIES.map((industry) => (
                           <SelectItem key={industry} value={industry}>
-                            {industry}
+                            {t(`form.industry.options.${industry}`)}
                           </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
                     <FormDescription>
-                      Choose your industry for a more relevant logo
+                      {t('form.industry.description')}
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -351,7 +392,7 @@ export default function Home() {
                 name='vibe'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Brand Vibe</FormLabel>
+                    <FormLabel>{t('form.vibe.label')}</FormLabel>
                     <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                       {VIBES.map((vibe) => (
                         <div
@@ -362,15 +403,17 @@ export default function Home() {
                               : 'hover:border-primary'
                           }`}
                           onClick={() => field.onChange(vibe.name)}>
-                          <div className='font-medium mb-1'>{vibe.name}</div>
+                          <div className='font-medium mb-1'>
+                            {t(`form.vibe.options.${vibe.name}.name`)}
+                          </div>
                           <div className='text-sm text-muted-foreground'>
-                            {vibe.description}
+                            {t(`form.vibe.options.${vibe.name}.description`)}
                           </div>
                         </div>
                       ))}
                     </div>
                     <FormDescription>
-                      Select the mood that best represents your brand
+                      {t('form.vibe.description')}
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -382,7 +425,7 @@ export default function Home() {
                 name='colorScheme'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Color Scheme</FormLabel>
+                    <FormLabel>{t('form.colorScheme.label')}</FormLabel>
                     <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                       {COLOR_SCHEMES.map((scheme) => (
                         <div
@@ -393,7 +436,9 @@ export default function Home() {
                               : 'hover:border-primary'
                           }`}
                           onClick={() => field.onChange(scheme.name)}>
-                          <div className='font-medium mb-2'>{scheme.name}</div>
+                          <div className='font-medium mb-2'>
+                            {t(`form.colorScheme.options.${scheme.name}.name`)}
+                          </div>
                           <div className='flex gap-2 mb-2'>
                             {scheme.name === 'Custom'
                               ? customColors.map((color, index) => (
@@ -430,7 +475,9 @@ export default function Home() {
                                 ))}
                           </div>
                           <div className='text-sm text-muted-foreground'>
-                            {scheme.description}
+                            {t(
+                              `form.colorScheme.options.${scheme.name}.description`
+                            )}
                           </div>
                         </div>
                       ))}
@@ -445,10 +492,13 @@ export default function Home() {
                 className='w-full'
                 disabled={isInCooldown() || isLoading}>
                 {isInCooldown()
-                  ? `Wait ${Math.ceil((cooldownEnd! - Date.now()) / 1000)}s`
+                  ? t('form.submit.wait').replace(
+                      '{{seconds}}',
+                      Math.ceil((cooldownEnd! - Date.now()) / 1000).toString()
+                    )
                   : isLoading
-                  ? 'Generating...'
-                  : 'Generate Logo'}
+                  ? t('form.submit.generating')
+                  : t('form.submit.generate')}
               </Button>
             </form>
           </Form>
